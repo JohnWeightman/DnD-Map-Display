@@ -18,6 +18,7 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
         CamaraMovement();
+        Raycasts();
     }
 
     void CamaraMovement()
@@ -44,13 +45,44 @@ public class CameraMovement : MonoBehaviour
         }
     }
 
-    public void SelectUnit()
+    public void Raycasts()
     {
-        RaycastHit Hit;
-        Ray Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(Ray, out Hit, 100f))
+        if (Input.GetMouseButtonDown(0))
         {
-
+            Debug.Log("Test 1.1");
+            RaycastHit Hit;
+            Ray Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(Ray, out Hit, 1000f))
+            {
+                Debug.Log("Test 1.2");
+                if (Hit.transform.tag == "NPC" || Hit.transform.tag == "PC")
+                {
+                    Debug.Log("Test 1.3.1");
+                    SelObj = Hit.transform.gameObject;
+                }
+                else
+                {
+                    Debug.Log("Test 1.3.2");
+                    SelObj = null;
+                }
+            }
+        }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            Debug.Log("Test 2.1");
+            RaycastHit Hit;
+            Ray Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(Ray, out Hit, 1000f))
+            {
+                Debug.Log("Test 2.2");
+                Debug.Log(Hit.transform.name);
+                Debug.Log(SelObj.transform.name);
+                if (Hit.transform.tag == "Walkable" && SelObj != null)
+                {
+                    Debug.Log("Test 2.3");
+                    SelObj.transform.position = new Vector3(Hit.transform.position.x, SelObj.transform.position.y, Hit.transform.position.z);
+                }
+            }
         }
     }
 }
