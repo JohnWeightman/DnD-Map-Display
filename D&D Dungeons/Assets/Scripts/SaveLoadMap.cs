@@ -11,11 +11,6 @@ public class SaveLoadMap : MonoBehaviour
     public string MapName;
     GameObject Map;
 
-    [Header("Prefabs")]
-    public GameObject Tree;
-    public GameObject Grass;
-    public GameObject DirtRoad;
-
     void Start()
     {
         Map = GameObject.Find("Map");
@@ -42,6 +37,7 @@ public class SaveLoadMap : MonoBehaviour
             XML.WriteAttributeString("XRot", Convert.ToString(Map.transform.GetChild(0).GetChild(x).transform.rotation.eulerAngles.x));
             XML.WriteAttributeString("YRot", Convert.ToString(Map.transform.GetChild(0).GetChild(x).transform.rotation.eulerAngles.y));
             XML.WriteAttributeString("ZRot", Convert.ToString(Map.transform.GetChild(0).GetChild(x).transform.rotation.eulerAngles.z));
+            XML.WriteAttributeString("Parent", "Ground");
             XML.WriteEndElement();
         }
         XML.WriteEndElement();
@@ -57,6 +53,7 @@ public class SaveLoadMap : MonoBehaviour
             XML.WriteAttributeString("XRot", Convert.ToString(Map.transform.GetChild(1).GetChild(x).transform.rotation.eulerAngles.x));
             XML.WriteAttributeString("YRot", Convert.ToString(Map.transform.GetChild(1).GetChild(x).transform.rotation.eulerAngles.y));
             XML.WriteAttributeString("ZRot", Convert.ToString(Map.transform.GetChild(1).GetChild(x).transform.rotation.eulerAngles.z));
+            XML.WriteAttributeString("Parent", "Items");
             XML.WriteEndElement();
         }
         XML.WriteEndElement();
@@ -72,6 +69,7 @@ public class SaveLoadMap : MonoBehaviour
             XML.WriteAttributeString("XRot", Convert.ToString(Map.transform.GetChild(2).GetChild(x).transform.rotation.eulerAngles.x));
             XML.WriteAttributeString("YRot", Convert.ToString(Map.transform.GetChild(2).GetChild(x).transform.rotation.eulerAngles.y));
             XML.WriteAttributeString("ZRot", Convert.ToString(Map.transform.GetChild(2).GetChild(x).transform.rotation.eulerAngles.z));
+            XML.WriteAttributeString("Parent", "NPCs");
             XML.WriteEndElement();
         }
         XML.WriteEndElement();
@@ -106,7 +104,11 @@ public class SaveLoadMap : MonoBehaviour
         {
             if ((XML.NodeType == XmlNodeType.Element) && (XML.Depth == 2))
             {
-                Instantiate(Resources.Load<GameObject>(XML.GetAttribute("Name")), new Vector3((float)Convert.ToDouble(XML.GetAttribute("XPos")), (float)Convert.ToDouble(XML.GetAttribute("YPos")), (float)Convert.ToDouble(XML.GetAttribute("ZPos"))), Quaternion.Euler((float)Convert.ToDouble(XML.GetAttribute("XRot")), (float)Convert.ToDouble(XML.GetAttribute("YRot")), (float)Convert.ToDouble(XML.GetAttribute("ZRot"))));
+                GameObject NewObj = Instantiate(Resources.Load<GameObject>(XML.GetAttribute("Name")), new Vector3((float)Convert.ToDouble(XML.GetAttribute("XPos")), 
+                    (float)Convert.ToDouble(XML.GetAttribute("YPos")), (float)Convert.ToDouble(XML.GetAttribute("ZPos"))),
+                    Quaternion.Euler((float)Convert.ToDouble(XML.GetAttribute("XRot")), (float)Convert.ToDouble(XML.GetAttribute("YRot")), 
+                    (float)Convert.ToDouble(XML.GetAttribute("ZRot"))));
+                NewObj.transform.parent = Map.transform.Find(XML.GetAttribute("Parent"));
             }
         }
     }

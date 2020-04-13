@@ -13,6 +13,8 @@ public class CameraMovement : MonoBehaviour
     bool Left;
     bool Right;
 
+    GameObject SelObj;
+
     void Update()
     {
         CamaraMovement();
@@ -39,6 +41,16 @@ public class CameraMovement : MonoBehaviour
         {
             transform.Translate(new Vector3(CameraSpeed * Time.deltaTime, 0, 0));
             transform.position = new Vector3(transform.position.x, 45f, transform.position.z);
+        }
+    }
+
+    public void SelectUnit()
+    {
+        RaycastHit Hit;
+        Ray Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(Ray, out Hit, 100f))
+        {
+
         }
     }
 }
