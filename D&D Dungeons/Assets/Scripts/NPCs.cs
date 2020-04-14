@@ -6,13 +6,4 @@ public class NPCs : MonoBehaviour
 {
     public float Movement;
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 }

@@ -79,6 +79,22 @@ public class SaveLoadButtons : EditorWindow
             XML.WriteEndElement();
         }
         XML.WriteEndElement();
+        XML.WriteStartElement("PCs");
+        for (int x = 0; x < Map.transform.GetChild(3).transform.childCount; x++)
+        {
+            Map.transform.GetChild(3).transform.GetChild(x).name = CheckName(Map.transform.GetChild(3).transform.GetChild(x));
+            XML.WriteStartElement(Map.transform.GetChild(3).GetChild(x).gameObject.name);
+            XML.WriteAttributeString("Name", Map.transform.GetChild(3).GetChild(x).gameObject.name);
+            XML.WriteAttributeString("XPos", Convert.ToString(Map.transform.GetChild(3).GetChild(x).transform.position.x));
+            XML.WriteAttributeString("YPos", Convert.ToString(Map.transform.GetChild(3).GetChild(x).transform.position.y));
+            XML.WriteAttributeString("ZPos", Convert.ToString(Map.transform.GetChild(3).GetChild(x).transform.position.z));
+            XML.WriteAttributeString("XRot", Convert.ToString(Map.transform.GetChild(3).GetChild(x).transform.rotation.eulerAngles.x));
+            XML.WriteAttributeString("YRot", Convert.ToString(Map.transform.GetChild(3).GetChild(x).transform.rotation.eulerAngles.y));
+            XML.WriteAttributeString("ZRot", Convert.ToString(Map.transform.GetChild(3).GetChild(x).transform.rotation.eulerAngles.z));
+            XML.WriteAttributeString("Parent", "PCs");
+            XML.WriteEndElement();
+        }
+        XML.WriteEndElement();
         XML.WriteEndElement();
         XML.WriteEndDocument();
         XML.Close();
